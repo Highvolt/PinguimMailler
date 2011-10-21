@@ -48,6 +48,7 @@ typedef struct trama_inf{
 	char bcc1;
 	dados_aplicacao * dados;
 	char bcc2;
+	char flag_fim;
 
 } trama_informacao;
 
@@ -103,6 +104,18 @@ int readfile(int fd_com,char * filename, int lenght){
 
 
 int llwrite(int fd, char * buffer, int lenght){
+	
+	trama_informacao maria;
+	maria.flag = 0x07E;
+	maria.campo_end = 0x03;
+	maria.controlo = 0;
+	maria.bcc1 = maria.campo_end^maria.controlo;
+	maria.bcc2 = 0;
+	maria.flag_fim = 0x07E;
+
+	
+
+
 }
 
 int llread(int fd, char * buffer){
