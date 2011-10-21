@@ -81,16 +81,21 @@ void retry(){
 
 int readfile(int fd_com,char * filename, int lenght){
 	int fd_file;
-	char * buffer=malloc(lenght);
-	fd_file=open(filename,O_READ);
+	char * buffer=malloc(lenght+1);
+	fd_file=open(filename,O_RDONLY);
 	if(fd_file<0){
 		return fd_file;
 	}
-	read(fd_file,buffer,lenght);
-	printf("parte: ");	
-	write(1,buffer,lenght);
-	printf("\n");
-	
+	char dados[]="parte: ";
+	int lido;
+	while(lido=read(fd_file,buffer,lenght)){
+	buffer[lido]='\n';
+	write(1,dados,7);	
+	write(1,buffer,lido+1);
+	printf("read: %d bytes\n",lido);
+	//printf("\n");
+}
+	return 0;
 
 }
 
@@ -269,13 +274,15 @@ int llopen(int porta, int transmitter){
 
 }
 
-int main(){
-	int a,b;
+int main(int argc, char *argv[]){
+	/*int a,b;
 	
 	printf("trasmitter: ");
 	scanf(" %d",&a);
 	printf("porta: ");
 	scanf(" %d",&b);
-	llopen(b,a);
+	llopen(b,a);*/
+	readfile(0,argv[1],12);
+	
 	return 0;
 }
